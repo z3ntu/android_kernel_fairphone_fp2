@@ -1,7 +1,7 @@
 VERSION = 3
 PATCHLEVEL = 4
 SUBLEVEL = 0
-EXTRAVERSION = z3ntu-kexec
+EXTRAVERSION = -z3ntu
 NAME = Saber-toothed Squirrel
 
 # *DOCUMENTATION*

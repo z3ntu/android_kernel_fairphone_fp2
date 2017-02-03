@@ -56,7 +56,7 @@ static ssize_t mdss_debug_base_offset_write(struct file *file,
 	struct mdss_debug_base *dbg = file->private_data;
 	u32 off = 0;
 	u32 cnt = DEFAULT_BASE_REG_CNT;
-	char buf[24];
+	char buf[24]={'\0'};
 
 	if (!dbg)
 		return -ENODEV;
@@ -90,7 +90,7 @@ static ssize_t mdss_debug_base_offset_read(struct file *file,
 {
 	struct mdss_debug_base *dbg = file->private_data;
 	int len = 0;
-	char buf[24];
+	char buf[24] = {'\0'};
 
 	if (!dbg)
 		return -ENODEV;
@@ -99,10 +99,10 @@ static ssize_t mdss_debug_base_offset_read(struct file *file,
 		return 0;	/* the end */
 
 	len = snprintf(buf, sizeof(buf), "0x%08x %x\n", dbg->off, dbg->cnt);
-	if (len < 0)
+        if (len < 0 || len >= sizeof(buf))	
 		return 0;
 
-	if (copy_to_user(buff, buf, len))
+        if ((count < sizeof(buf)) || copy_to_user(buff, buf, len))
 		return -EFAULT;
 
 	*ppos += len;	/* increase offset */
@@ -117,7 +117,7 @@ static ssize_t mdss_debug_base_reg_write(struct file *file,
 	struct mdss_data_type *mdata = mdss_res;
 	size_t off;
 	u32 data, cnt;
-	char buf[24];
+	char buf[24] = {'\0'};
 
 	if (!dbg || !mdata)
 		return -ENODEV;
@@ -419,7 +419,7 @@ void mdss_dump_reg(char __iomem *base, int len)
 		x4 = readl_relaxed(addr+0x4);
 		x8 = readl_relaxed(addr+0x8);
 		xc = readl_relaxed(addr+0xc);
-		pr_info("%p : %08x %08x %08x %08x\n", addr, x0, x4, x8, xc);
+		pr_info("%pK : %08x %08x %08x %08x\n", addr, x0, x4, x8, xc);
 		addr += 16;
 	}
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);

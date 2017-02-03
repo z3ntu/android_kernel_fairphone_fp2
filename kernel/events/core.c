@@ -6243,6 +6243,9 @@ SYSCALL_DEFINE5(perf_event_open,
 	if (err)
 		return err;
 
+	if (attr.constraint_duplicate || attr.__reserved_1)
+		return -EINVAL;
+
 	if (!attr.exclude_kernel) {
 		if (perf_paranoid_kernel() && !capable(CAP_SYS_ADMIN))
 			return -EACCES;
@@ -7086,12 +7089,6 @@ static void perf_event_exit_cpu_context(int cpu)
 
 static void perf_event_exit_cpu(int cpu)
 {
-	struct swevent_htable *swhash = &per_cpu(swevent_htable, cpu);
-
-	mutex_lock(&swhash->hlist_mutex);
-	swevent_hlist_release(swhash);
-	mutex_unlock(&swhash->hlist_mutex);
-
 	perf_event_exit_cpu_context(cpu);
 }
 #else

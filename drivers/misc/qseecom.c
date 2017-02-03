@@ -1236,7 +1236,7 @@ int __qseecom_process_rpmb_svc_cmd(struct qseecom_dev_handle *data_ptr,
 	void *req_buf = NULL;
 
 	if ((req_ptr == NULL) || (send_svc_ireq_ptr == NULL)) {
-		pr_err("Error with pointer: req_ptr = %p, send_svc_ptr = %p\n",
+		pr_err("Error with pointer: req_ptr = %pK, send_svc_ptr = %pK\n",
 			req_ptr, send_svc_ireq_ptr);
 		return -EINVAL;
 	}
@@ -1740,6 +1740,30 @@ static int qseecom_send_modfd_cmd(struct qseecom_dev_handle *data,
 	if (ret) {
 		pr_err("copy_from_user failed\n");
 		return ret;
+	}
+
+        if (req.cmd_req_buf == NULL || req.resp_buf == NULL) {
+		pr_err("cmd buffer or response buffer is null\n");
+		return -EINVAL;
+	}
+	if (((uint32_t)req.cmd_req_buf < data->client.user_virt_sb_base) ||
+		((uint32_t)req.cmd_req_buf >= (data->client.user_virt_sb_base +
+					data->client.sb_length))) {
+		pr_err("cmd buffer address not within shared bufffer\n");
+		return -EINVAL;
+	}
+
+	if (((uint32_t)req.resp_buf < data->client.user_virt_sb_base)  ||
+		((uint32_t)req.resp_buf >= (data->client.user_virt_sb_base +
+					data->client.sb_length))){
+		pr_err("response buffer address not within shared bufffer\n");
+		return -EINVAL;
+	}
+
+    if (req.cmd_req_len == 0 || req.cmd_req_len > data->client.sb_length ||
+		req.resp_len > data->client.sb_length) {
+		pr_err("cmd or response buffer length not valid\n");
+		return -EINVAL;
 	}
 
 	send_cmd_req.cmd_req_buf = req.cmd_req_buf;
@@ -2461,7 +2485,7 @@ int qseecom_send_command(struct qseecom_handle *handle, void *send_buf,
 	if (ret)
 		return ret;
 
-	pr_debug("sending cmd_req->rsp size: %u, ptr: 0x%p\n",
+	pr_debug("sending cmd_req->rsp size: %u, ptr: 0x%pK\n",
 			req.resp_len, req.resp_buf);
 	return ret;
 }

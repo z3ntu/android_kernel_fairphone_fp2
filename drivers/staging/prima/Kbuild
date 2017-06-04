@@ -667,7 +667,7 @@ endif
 # Fix build for GCC 4.7
 EXTRA_CFLAGS += -Wno-maybe-uninitialized -Wno-unused-function
 # Fix build for even newer GCC version
-EXTRA_CFLAGS += -Wno-misleading-indentation
+EXTRA_CFLAGS += -Wno-misleading-indentation -Wno-discarded-array-qualifiers
 
 KBUILD_CPPFLAGS += $(CDEFINES)
 

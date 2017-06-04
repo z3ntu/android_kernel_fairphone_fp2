@@ -3498,8 +3498,8 @@ static char *i_trim(char *str)
    /* Find the last non white-space */
    ptr += strlen(ptr) - 1;
    for (; ptr != str && i_isspace(*ptr); ptr--);
-      /* Null terminate the following character */
-      ptr[1] = '\0';
+   /* Null terminate the following character */
+   ptr[1] = '\0';
 
    return str;
 }

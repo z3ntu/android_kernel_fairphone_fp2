@@ -3489,8 +3489,8 @@ static char *i_trim(char *str)
 
    /* Find the first non white-space*/
    for (ptr = str; i_isspace(*ptr); ptr++);
-      if (*ptr == '\0')
-         return str;
+   if (*ptr == '\0')
+      return str;
 
    /* This is the new start of the string*/
    str = ptr;

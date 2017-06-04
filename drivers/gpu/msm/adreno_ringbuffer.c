@@ -227,7 +227,7 @@ static inline int adreno_ringbuffer_load_pm4_ucode(struct kgsl_device *device,
 	return 0;
 }
 
-static int adreno_ringbuffer_read_pfp_ucode(struct kgsl_device *device)
+int adreno_ringbuffer_read_pfp_ucode(struct kgsl_device *device)
 {
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 	int ret = 0;

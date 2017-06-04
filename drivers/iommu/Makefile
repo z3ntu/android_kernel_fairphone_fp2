@@ -1,4 +1,3 @@
-EXTRA_CFLAGS += -Wno-shift-overflow
 obj-$(CONFIG_IOMMU_API) += iommu.o
 obj-$(CONFIG_MSM_IOMMU) += msm_iommu.o
 obj-$(CONFIG_MSM_IOMMU_V0) += msm_iommu-v0.o msm_iommu_dev-v0.o

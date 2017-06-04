@@ -2632,8 +2632,8 @@ int DRXD_init(struct drxd_state *state, const u8 * fw, u32 fw_size)
 		/* Apply I2c address patch to B1 */
 		if (!state->type_A && state->m_HiI2cPatch != NULL)
 			status = WriteTable(state, state->m_HiI2cPatch);
-			if (status < 0)
-				break;
+		if (status < 0)
+			break;
 
 		if (state->type_A) {
 			/* HI firmware patch for UIO readout,
@@ -2692,8 +2692,8 @@ int DRXD_init(struct drxd_state *state, const u8 * fw, u32 fw_size)
 			break;
 		if (state->type_A)
 			status = ResetCEFR(state);
-			if (status < 0)
-				break;
+		if (status < 0)
+			break;
 
 		if (fw) {
 			status = DownloadMicrocode(state, fw, fw_size);

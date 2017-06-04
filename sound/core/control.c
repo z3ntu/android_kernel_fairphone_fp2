@@ -1144,8 +1144,8 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
             return err;
 	}
 
-    if (card->user_ctl_count >= MAX_USER_CONTROLS)
-        return -ENOMEM;
+	if (card->user_ctl_count >= MAX_USER_CONTROLS)
+		return -ENOMEM;
 
 	memcpy(&kctl.id, &info->id, sizeof(info->id));
 	kctl.count = info->owner ? info->owner : 1;

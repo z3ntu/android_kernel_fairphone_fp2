@@ -475,8 +475,8 @@ static long tcmd_misc_ioctl( struct file *file,
 		else if (copy_from_user(&gpio_enum, argp, sizeof(int)))
 			return -EFAULT;
 
-	if (gpio_enum < 0)
-		return -EINVAL;
+		if (gpio_enum < 0)
+			return -EINVAL;
 
 		switch (cmd) {
 			case TCMD_IOCTL_MASK_INT:
